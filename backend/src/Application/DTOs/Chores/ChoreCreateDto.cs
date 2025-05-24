@@ -13,6 +13,6 @@ public class ChoreCreateDto
   [JsonPropertyName("dataDeConclusao")]
   public DateTime? CompletedAt { get; set; } = null;
   [JsonPropertyName("status")]
-  public string? Status { get; set; } = ChoreStatus.Pending.ToString();
+  public string? Status { get; set; }
 
 }

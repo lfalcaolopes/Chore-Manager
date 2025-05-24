@@ -2,6 +2,7 @@ namespace Application.Validators.Chores;
 
 using Application.DTOs.Chores;
 using Domain.Enums;
+using Domain.Utils;
 using FluentValidation;
 
 public class ChoreCreateDtoValidator : AbstractValidator<ChoreCreateDto>
@@ -31,6 +32,14 @@ public class ChoreCreateDtoValidator : AbstractValidator<ChoreCreateDto>
       return true; // Allow null or empty values
     }
 
-    return Enum.TryParse<ChoreStatus>(status, true, out _);
+    try
+    {
+      ChoreStatusExtension.FromPortuguese(status);
+      return true;
+    }
+    catch
+    {
+      return false;
+    }
   }
 }
