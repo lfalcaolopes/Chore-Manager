@@ -24,7 +24,8 @@ public class ChoreMapping : IEntityTypeConfiguration<Chore>
       .HasMaxLength(500);
 
     builder.Property(x => x.Status)
-      .IsRequired();
+      .IsRequired()
+      .HasConversion<string>();
 
     builder.Property(x => x.CreatedAt)
       .IsRequired();
