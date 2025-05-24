@@ -14,6 +14,8 @@ public static class InfrastructureDependencyInjection
     services.AddDbContext<AppDbContext>(options =>
       options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
+    services.AddScoped<IChoreRepository, ChoreRepository>();
+
     return services;
   }
 }
