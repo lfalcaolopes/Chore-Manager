@@ -41,9 +41,6 @@ public class ChoreService : IChoreService
     var chore = _mapper.Map<Chore>(choreDto);
 
     chore.CreatedAt = DateTime.UtcNow;
-    chore.Status = choreDto.Status != null
-      ? ChoreStatusExtension.FromPortuguese(choreDto.Status)
-      : ChoreStatus.Pending;
 
     await _repository.AddAsync(chore, cancellationToken);
     await _repository.SaveChangesAsync(cancellationToken);
@@ -58,11 +55,15 @@ public class ChoreService : IChoreService
       return false;
     }
 
+    var previousStatus = existingChore.Status;
+
     _mapper.Map(choreDto, existingChore);
 
-    if (choreDto.Status != null)
+    if (previousStatus != existingChore.Status)
     {
-      existingChore.Status = ChoreStatusExtension.FromPortuguese(choreDto.Status);
+      existingChore.CompletedAt = existingChore.Status == ChoreStatus.Completed
+        ? DateTime.UtcNow
+        : null;
     }
 
     await _repository.UpdateAsync(existingChore);
