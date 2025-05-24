@@ -1,6 +1,7 @@
-namespace Application.Validators.Chore;
+namespace Application.Validators.Chores;
 
-using Application.DTOs.Chore;
+using Application.DTOs.Chores;
+using Domain.Enums;
 using FluentValidation;
 
 public class ChoreUpdateDtoValidator : AbstractValidator<ChoreUpdateDto>
@@ -15,17 +16,17 @@ public class ChoreUpdateDtoValidator : AbstractValidator<ChoreUpdateDto>
         .MaximumLength(500).WithMessage("A descrição deve ter no máximo 500 caracteres.")
         .When(x => !string.IsNullOrWhiteSpace(x.Description));
 
-    RuleFor(x => x.CompletedAt)
-        .GreaterThan(DateTime.Now).WithMessage("A data de conclusão deve ser futura.")
-        .When(x => x.CompletedAt.HasValue);
-
     RuleFor(x => x.Status)
         .Must(BeAValidStatus).WithMessage("Status inválido. Use: 'Pendente', 'EmProgresso' ou 'Concluída'.");
   }
 
-  private bool BeAValidStatus(string status)
+  private bool BeAValidStatus(string? status)
   {
-    var accepted = new[] { "Pendente", "EmProgresso", "Concluída" };
-    return accepted.Contains(status.Trim(), StringComparer.OrdinalIgnoreCase);
+    if (string.IsNullOrWhiteSpace(status))
+    {
+      return true; // Allow null or empty values
+    }
+
+    return Enum.TryParse<ChoreStatus>(status, true, out _);
   }
 }

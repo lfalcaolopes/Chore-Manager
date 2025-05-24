@@ -1,6 +1,7 @@
-namespace Application.Validators.Chore;
+namespace Application.Validators.Chores;
 
-using Application.DTOs.Chore;
+using Application.DTOs.Chores;
+using Domain.Enums;
 using FluentValidation;
 
 public class ChoreCreateDtoValidator : AbstractValidator<ChoreCreateDto>
@@ -23,9 +24,13 @@ public class ChoreCreateDtoValidator : AbstractValidator<ChoreCreateDto>
       .Must(BeAValidStatus).WithMessage("Status inválido. Use: 'Pendente', 'EmProgresso' ou 'Concluída'.");
   }
 
-  private bool BeAValidStatus(string status)
+  private bool BeAValidStatus(string? status)
   {
-    var accepted = new[] { "Pendente", "EmProgresso", "Concluída" };
-    return accepted.Contains(status.Trim(), StringComparer.OrdinalIgnoreCase);
+    if (string.IsNullOrWhiteSpace(status))
+    {
+      return true; // Allow null or empty values
+    }
+
+    return Enum.TryParse<ChoreStatus>(status, true, out _);
   }
 }
