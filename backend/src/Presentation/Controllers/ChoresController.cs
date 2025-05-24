@@ -1,6 +1,5 @@
 using Application.DTOs.Chores;
 using Application.Services.Chores;
-using Domain.Entites;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers;
@@ -40,11 +39,6 @@ public class ChoresController : ControllerBase
   [HttpPost]
   public async Task<IActionResult> Create([FromBody] ChoreCreateDto chore, CancellationToken cancellationToken)
   {
-    if (chore is null)
-    {
-      return BadRequest("Chore cannot be null");
-    }
-
     await _service.AddAsync(chore, cancellationToken);
 
     return StatusCode(201);
@@ -53,11 +47,6 @@ public class ChoresController : ControllerBase
   [HttpPut("{id:int}")]
   public async Task<IActionResult> Update(int id, [FromBody] ChoreUpdateDto updatedChore, CancellationToken cancellationToken)
   {
-    if (updatedChore is null)
-    {
-      return BadRequest("Chore cannot be null");
-    }
-
     var result = await _service.UpdateAsync(id, updatedChore, cancellationToken);
 
     if (!result)
