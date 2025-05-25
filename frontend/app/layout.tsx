@@ -1,24 +1,31 @@
-import type { Metadata } from 'next';
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
-import ThemeRegistry from './theme-registry';
-import './globals.css';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'Chore Manager',
-  description: 'A modern app for managing household chores',
-};
+import { createGlobalStyle } from 'styled-components';
+
+const GlobalStyle = createGlobalStyle`
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background: #f9fafb;
+    min-height: 100vh;
+  }
+`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <body>
-        <AppRouterCacheProvider>
-          <ThemeRegistry>{children}</ThemeRegistry>
-        </AppRouterCacheProvider>
+        <GlobalStyle />
+        {/* <ThemeProvider theme={theme}> */}
+        {/* <CssBaseline /> */}
+        {children}
+        {/* </ThemeProvider> */}
       </body>
     </html>
   );

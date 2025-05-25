@@ -15,9 +15,14 @@
     "@mui/icons-material": "^7.1.0",
     "@mui/material": "^7.1.0",
     "@mui/material-nextjs": "^7.1.0",
+    "@mui/x-date-pickers": "^8.4.0",
+    "@types/styled-components": "^5.1.34",
+    "date-fns": "^4.1.0",
     "next": "15.3.2",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.56.4",
+    "styled-components": "^6.1.18"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
