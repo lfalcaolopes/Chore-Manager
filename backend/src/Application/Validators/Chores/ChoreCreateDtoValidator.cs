@@ -20,26 +20,5 @@ public class ChoreCreateDtoValidator : AbstractValidator<ChoreCreateDto>
     RuleFor(x => x.CompletedAt)
       .GreaterThan(DateTime.Now).WithMessage("A data de conclusão deve ser futura.")
       .When(x => x.CompletedAt.HasValue);
-
-    RuleFor(x => x.Status)
-      .Must(BeAValidStatus).WithMessage("Status inválido. Use: 'Pendente', 'EmProgresso' ou 'Concluída'.");
-  }
-
-  private bool BeAValidStatus(string? status)
-  {
-    if (string.IsNullOrWhiteSpace(status))
-    {
-      return true; // Allow null or empty values
-    }
-
-    try
-    {
-      ChoreStatusExtension.FromPortuguese(status);
-      return true;
-    }
-    catch
-    {
-      return false;
-    }
   }
 }

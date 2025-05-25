@@ -11,8 +11,7 @@ public class ChoreCreateDto
   [JsonPropertyName("descricao")]
   public string? Description { get; set; }
   [JsonPropertyName("dataDeConclusao")]
-  public DateTime? CompletedAt { get; set; } = null;
+  public DateTime? CompletedAt { get; set; }
   [JsonPropertyName("status")]
-  public string? Status { get; set; }
-
+  public ChoreStatus? Status { get; set; }
 }

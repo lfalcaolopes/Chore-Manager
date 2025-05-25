@@ -1,29 +1,33 @@
+using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Domain.Enums;
 
 namespace Domain.Utils;
 
-public static class ChoreStatusExtension
+public class ChoreStatusJsonConverter : JsonConverter<ChoreStatus>
 {
-  public static string ToPortuguese(this ChoreStatus status)
+  public override ChoreStatus Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
   {
-    return status switch
+    var value = reader.GetString();
+    return value?.ToLower() switch
     {
-      ChoreStatus.Pending => "Pendente",
-      ChoreStatus.InProgress => "Em Progresso",
-      ChoreStatus.Completed => "Concluída",
-      _ => status.ToString()
+      "pendente" => ChoreStatus.Pending,
+      "emprogresso" => ChoreStatus.InProgress,
+      "concluida" => ChoreStatus.Completed,
+      _ => throw new JsonException($"Valor inválido para Status: {value}")
     };
   }
 
-  public static ChoreStatus FromPortuguese(string status)
+  public override void Write(Utf8JsonWriter writer, ChoreStatus value, JsonSerializerOptions options)
   {
-    return status.Trim().ToLower() switch
+    var str = value switch
     {
-      "pendente" => ChoreStatus.Pending,
-      "em progresso" => ChoreStatus.InProgress,
-      "emprogresso" => ChoreStatus.InProgress,
-      "concluída" => ChoreStatus.Completed,
-      _ => throw new ArgumentException("Status inválido", nameof(status))
+      ChoreStatus.Pending => "Pendente",
+      ChoreStatus.InProgress => "Em Progresso",
+      ChoreStatus.Completed => "Concluida",
+      _ => throw new JsonException($"Valor inválido para Status: {value}")
     };
+    writer.WriteStringValue(str);
   }
 }

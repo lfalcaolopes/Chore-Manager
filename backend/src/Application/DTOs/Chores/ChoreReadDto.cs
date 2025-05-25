@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Domain.Enums;
 
 namespace Application.DTOs.Chores;
 
@@ -20,5 +21,5 @@ public class ChoreReadDto
   public DateTime? CompletedAt { get; set; }
 
   [JsonPropertyName("status")]
-  public string Status { get; set; } = String.Empty;
+  public ChoreStatus Status { get; set; }
 }

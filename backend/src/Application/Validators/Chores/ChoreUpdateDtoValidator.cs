@@ -17,25 +17,5 @@ public class ChoreUpdateDtoValidator : AbstractValidator<ChoreUpdateDto>
         .MaximumLength(500).WithMessage("A descrição deve ter no máximo 500 caracteres.")
         .When(x => !string.IsNullOrWhiteSpace(x.Description));
 
-    RuleFor(x => x.Status)
-        .Must(BeAValidStatus).WithMessage("Status inválido. Use: 'Pendente', 'EmProgresso' ou 'Concluída'.");
-  }
-
-  private bool BeAValidStatus(string? status)
-  {
-    if (string.IsNullOrWhiteSpace(status))
-    {
-      return true; // Allow null or empty values
-    }
-
-    try
-    {
-      ChoreStatusExtension.FromPortuguese(status);
-      return true;
-    }
-    catch
-    {
-      return false;
-    }
   }
 }

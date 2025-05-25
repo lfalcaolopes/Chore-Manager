@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Domain.Enums;
 
 namespace Application.DTOs.Chores;
 
@@ -11,5 +12,5 @@ public class ChoreUpdateDto
   public string? Description { get; set; }
 
   [JsonPropertyName("status")]
-  public string? Status { get; set; } = String.Empty;
+  public ChoreStatus? Status { get; set; }
 }
