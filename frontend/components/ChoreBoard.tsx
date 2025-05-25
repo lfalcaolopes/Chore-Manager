@@ -1,6 +1,6 @@
 'use client';
 
-import { ChoreReadDto } from '@/types/chore';
+import { ChoreReadDto, ChoreStatus } from '@/src/types/chores';
 import styled from 'styled-components';
 import ChoreCard from './ChoreCard';
 
@@ -8,7 +8,7 @@ interface ChoreBoardProps {
   chores: ChoreReadDto[];
   onEdit: (chore: ChoreReadDto) => void;
   onDelete: (id: number) => void;
-  onStatusChange: (id: number, status: ChoreReadDto['status']) => void;
+  onStatusChange: (id: number, status: ChoreStatus) => void;
 }
 
 const Board = styled.div`
@@ -77,9 +77,9 @@ const CardList = styled.div`
 
 const ChoreBoard = ({ chores, onEdit, onDelete, onStatusChange }: ChoreBoardProps) => {
   const columns = [
-    { status: 'pendente' as const, title: 'Pendente' },
-    { status: 'emProgresso' as const, title: 'Em Progresso' },
-    { status: 'concluida' as const, title: 'Concluída' },
+    { status: 'Pendente' as const, title: 'Pendente' },
+    { status: 'EmProgresso' as const, title: 'Em Progresso' },
+    { status: 'Concluida' as const, title: 'Concluída' },
   ];
 
   return (

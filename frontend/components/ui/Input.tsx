@@ -20,12 +20,12 @@ const Label = styled.label`
   margin-bottom: 0.25rem;
 `;
 
-const StyledInput = styled.input<{ hasError: boolean }>`
+const StyledInput = styled.input<{ 'data-has-error': boolean }>`
   width: 100%;
   padding: 0.5rem 0.75rem;
   font-size: 1rem;
   background-color: #fff;
-  border: 1px solid ${({ hasError }) => (hasError ? '#ef4444' : '#d1d5db')};
+  border: 1px solid ${({ 'data-has-error': hasError }) => (hasError ? '#ef4444' : '#d1d5db')};
   border-radius: 0.5rem;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   transition:
@@ -54,7 +54,7 @@ const Input = ({ label, error, className = '', ...props }: InputProps) => {
   return (
     <Wrapper className={className}>
       {label && <Label>{label}</Label>}
-      <StyledInput hasError={!!error} {...props} />
+      <StyledInput data-has-error={!!error} {...props} />
       {error && <ErrorText>{error}</ErrorText>}
     </Wrapper>
   );

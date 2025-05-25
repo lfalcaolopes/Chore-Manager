@@ -1,11 +1,11 @@
 'use client';
 
-import { ChoreReadDto } from '@/types/chore';
+import { ChoreStatus } from '@/src/types/chores';
 import styled from 'styled-components';
 import Select from './ui/Select';
 import Button from './ui/Button';
 
-type StatusFilter = 'todos' | ChoreReadDto['status'];
+type StatusFilter = 'todos' | ChoreStatus;
 
 interface HeaderProps {
   statusFilter: StatusFilter;
@@ -55,9 +55,9 @@ const Actions = styled.div`
 const Header = ({ statusFilter, onStatusFilterChange, onCreateClick }: HeaderProps) => {
   const statusOptions: { value: StatusFilter; label: string }[] = [
     { value: 'todos', label: 'Todos' },
-    { value: 'pendente', label: 'Pendente' },
-    { value: 'emProgresso', label: 'Em Progresso' },
-    { value: 'concluida', label: 'Concluída' },
+    { value: 'Pendente', label: 'Pendente' },
+    { value: 'EmProgresso', label: 'Em Progresso' },
+    { value: 'Concluida', label: 'Concluída' },
   ];
 
   return (

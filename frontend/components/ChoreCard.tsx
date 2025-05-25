@@ -1,6 +1,6 @@
 'use client';
 
-import { ChoreReadDto } from '@/types/chore';
+import { ChoreReadDto, ChoreStatus } from '@/src/types/chores';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import styled from 'styled-components';
@@ -12,7 +12,7 @@ interface ChoreCardProps {
   chore: ChoreReadDto;
   onEdit: (chore: ChoreReadDto) => void;
   onDelete: (id: number) => void;
-  onStatusChange: (id: number, status: ChoreReadDto['status']) => void;
+  onStatusChange: (id: number, status: ChoreStatus) => void;
 }
 
 const Card = styled.div`
@@ -36,7 +36,7 @@ const Card = styled.div`
 const Content = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  flex: 1;
 `;
 
 const Title = styled.h3`
@@ -48,6 +48,9 @@ const Title = styled.h3`
 const Description = styled.p`
   color: #4b5563;
   white-space: pre-wrap;
+  min-height: 1rem;
+  margin: 0;
+  margin-bottom: 0.5rem;
 `;
 
 const Dates = styled.div`
@@ -78,26 +81,26 @@ const Actions = styled.div`
 
 const ChoreCard = ({ chore, onEdit, onDelete, onStatusChange }: ChoreCardProps) => {
   const statusOptions = [
-    { value: 'pendente', label: 'Pendente' },
-    { value: 'emProgresso', label: 'Em Progresso' },
-    { value: 'concluida', label: 'Concluída' },
+    { value: 'Pendente', label: 'Pendente' },
+    { value: 'EmProgresso', label: 'Em Progresso' },
+    { value: 'Concluida', label: 'Concluída' },
   ];
 
   const handleStatusChange = (value: string) => {
-    onStatusChange(chore.id, value as ChoreReadDto['status']);
+    onStatusChange(chore.id, value as ChoreStatus);
   };
 
   return (
     <Card>
       <Content>
-        <Title>{chore.title}</Title>
-        <Description>{chore.description}</Description>
+        <Title>{chore.titulo}</Title>
+        <Description>{chore.descricao || '\u00A0'}</Description>
         <Dates>
-          <p>Criado em: {format(new Date(chore.createdAt), 'dd/MM/yyyy', { locale: ptBR })}</p>
-          {chore.completionDate && (
+          <p>Criado em: {format(new Date(chore.dataDeCriacao), 'dd/MM/yyyy', { locale: ptBR })}</p>
+          {chore.dataDeConclusao && (
             <p>
               Concluído em:{' '}
-              {format(new Date(chore.completionDate), 'dd/MM/yyyy', {
+              {format(new Date(chore.dataDeConclusao), 'dd/MM/yyyy', {
                 locale: ptBR,
               })}
             </p>

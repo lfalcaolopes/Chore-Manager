@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { ChoreReadDto } from '@/types/chore';
+import { ChoreReadDto, ChoreStatus } from '@/src/types/chores';
 import Modal from './ui/Modal';
 import Input from './ui/Input';
 import Select from './ui/Select';
@@ -22,33 +22,32 @@ const FormContainer = styled.div`
 `;
 
 const ChoreModal = ({ open, onClose, onSubmit, chore }: ChoreModalProps) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [status, setStatus] = useState<ChoreReadDto['status']>('pendente');
-  const [completionDate, setCompletionDate] = useState<string>('');
+  const [titulo, setTitulo] = useState('');
+  const [descricao, setDescricao] = useState('');
+  const [status, setStatus] = useState<ChoreStatus>('Pendente');
+  const [dataDeConclusao, setDataDeConclusao] = useState<string>('');
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     if (chore) {
-      setTitle(chore.title);
-      setDescription(chore.description);
+      setTitulo(chore.titulo);
+      setDescricao(chore.descricao || '');
       setStatus(chore.status);
-      setCompletionDate(chore.completionDate || '');
+      setDataDeConclusao(chore.dataDeConclusao || '');
     } else {
-      setTitle('');
-      setDescription('');
-      setStatus('pendente');
-      setCompletionDate('');
+      setTitulo('');
+      setDescricao('');
+      setStatus('Pendente');
+      setDataDeConclusao('');
     }
     setErrors({});
   }, [chore, open]);
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-    if (!title.trim()) newErrors.title = 'O título é obrigatório';
-    if (!description.trim()) newErrors.description = 'A descrição é obrigatória';
-    if (status === 'concluida' && !completionDate) {
-      newErrors.completionDate = 'A data de conclusão é obrigatória para tarefas concluídas';
+    if (!titulo.trim()) newErrors.titulo = 'O título é obrigatório';
+    if (status === 'Concluida' && !dataDeConclusao) {
+      newErrors.dataDeConclusao = 'A data de conclusão é obrigatória para tarefas concluídas';
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -58,22 +57,22 @@ const ChoreModal = ({ open, onClose, onSubmit, chore }: ChoreModalProps) => {
     if (!validateForm()) return;
 
     onSubmit({
-      title,
-      description,
+      titulo,
+      descricao,
       status,
-      completionDate: completionDate || null,
-      createdAt: chore?.createdAt || new Date().toISOString(),
+      dataDeConclusao: dataDeConclusao || null,
+      dataDeCriacao: chore?.dataDeCriacao || new Date().toISOString(),
     });
   };
 
   const statusOptions = [
-    { value: 'pendente', label: 'Pendente' },
-    { value: 'emProgresso', label: 'Em Progresso' },
-    { value: 'concluida', label: 'Concluída' },
+    { value: 'Pendente', label: 'Pendente' },
+    { value: 'EmProgresso', label: 'Em Progresso' },
+    { value: 'Concluida', label: 'Concluída' },
   ];
 
   const handleStatusChange = (value: string) => {
-    setStatus(value as ChoreReadDto['status']);
+    setStatus(value as ChoreStatus);
   };
 
   return (
@@ -93,16 +92,16 @@ const ChoreModal = ({ open, onClose, onSubmit, chore }: ChoreModalProps) => {
       <FormContainer>
         <Input
           label="Título"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          error={errors.title}
+          value={titulo}
+          onChange={(e) => setTitulo(e.target.value)}
+          error={errors.titulo}
           required
         />
         <Input
           label="Descrição"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          error={errors.description}
+          value={descricao}
+          onChange={(e) => setDescricao(e.target.value)}
+          error={errors.descricao}
           required
         />
         <Select
@@ -114,9 +113,9 @@ const ChoreModal = ({ open, onClose, onSubmit, chore }: ChoreModalProps) => {
         <Input
           label="Data de Conclusão"
           type="date"
-          value={completionDate}
-          onChange={(e) => setCompletionDate(e.target.value)}
-          error={errors.completionDate}
+          value={dataDeConclusao}
+          onChange={(e) => setDataDeConclusao(e.target.value)}
+          error={errors.dataDeConclusao}
         />
       </FormContainer>
     </Modal>
