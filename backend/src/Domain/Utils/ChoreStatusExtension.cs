@@ -24,7 +24,7 @@ public class ChoreStatusJsonConverter : JsonConverter<ChoreStatus>
     var str = value switch
     {
       ChoreStatus.Pending => "Pendente",
-      ChoreStatus.InProgress => "Em Progresso",
+      ChoreStatus.InProgress => "EmProgresso",
       ChoreStatus.Completed => "Concluida",
       _ => throw new JsonException($"Valor inválido para Status: {value}")
     };
