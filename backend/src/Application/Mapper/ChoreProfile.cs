@@ -11,11 +11,9 @@ public class ChoreProfile : Profile
     CreateMap<Chore, ChoreReadDto>();
 
     CreateMap<ChoreCreateDto, Chore>()
-      .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
-      .ForMember(dest => dest.CompletedAt, opt => opt.Ignore());
+      .ForMember(dest => dest.CreatedAt, opt => opt.Ignore());
 
     CreateMap<ChoreUpdateDto, Chore>()
-      .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
-      .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
+      .ForMember(dest => dest.CreatedAt, opt => opt.Ignore());
   }
 }

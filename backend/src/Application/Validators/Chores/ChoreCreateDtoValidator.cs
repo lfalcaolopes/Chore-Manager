@@ -17,8 +17,12 @@ public class ChoreCreateDtoValidator : AbstractValidator<ChoreCreateDto>
       .MaximumLength(500).WithMessage("A descrição deve ter no máximo 500 caracteres.")
       .When(x => !string.IsNullOrWhiteSpace(x.Description));
 
-    RuleFor(x => x.CompletedAt)
-      .GreaterThan(DateTime.Now).WithMessage("A data de conclusão deve ser futura.")
-      .When(x => x.CompletedAt.HasValue);
+    RuleFor(x => x.Status)
+      .NotNull().WithMessage("O campo 'status' é obrigatório.")
+      .IsInEnum().WithMessage("O status deve ser um valor válido.");
+
+    RuleFor(x => new { x.Status, x.CompletedAt })
+      .Must(x => x.Status == ChoreStatus.Completed || x.CompletedAt == null)
+      .WithMessage("O campo 'dataDeConclusao' só deve ser preenchido quando o status for 'Concluído'.");
   }
 }

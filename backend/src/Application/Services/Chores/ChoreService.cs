@@ -41,6 +41,10 @@ public class ChoreService : IChoreService
     var chore = _mapper.Map<Chore>(choreDto);
 
     chore.CreatedAt = DateTime.UtcNow;
+    chore.CompletedAt = chore.Status == ChoreStatus.Completed
+      ? DateTime.UtcNow
+      : null;
+
 
     await _repository.AddAsync(chore, cancellationToken);
     await _repository.SaveChangesAsync(cancellationToken);
