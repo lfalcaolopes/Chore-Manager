@@ -1,6 +1,6 @@
 import { ChoreReadDto, ChoreCreateDto, ChoreUpdateDto } from '../types/chores';
 
-const BASE_URL = 'http://localhost:5242';
+const BASE_URL = 'http://localhost:5000';
 const CHORES_ENDPOINT = '/Chores';
 
 // Helper function to handle API errors

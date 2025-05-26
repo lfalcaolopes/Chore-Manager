@@ -2,6 +2,8 @@ using Infrastructure;
 using Domain;
 using Application;
 using Presentation.Middlewares;
+using Infrastructure.Databases;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,5 +39,20 @@ app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 app.UseMiddleware<ApplicationProblemMiddleware>();
 app.MapControllers();
+
+// Migrate Database. Demo only, not recommended for production use.
+using (var scope = app.Services.CreateScope())
+{
+    try
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        await dbContext.Database.MigrateAsync();
+    }
+    catch (Exception ex)
+    {
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while migrating the database.");
+    }
+}
 
 app.Run();
