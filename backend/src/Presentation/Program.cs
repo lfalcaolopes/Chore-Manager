@@ -1,6 +1,7 @@
 using Infrastructure;
 using Domain;
 using Application;
+using Presentation.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDomainServices()
     .AddApplicationServices()
     .AddInfrastructureServices(builder.Configuration);
+
+builder.Services.AddTransient<ApplicationProblemMiddleware>();
 
 builder.Services.AddCors(options =>
 {
@@ -32,6 +35,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
+app.UseMiddleware<ApplicationProblemMiddleware>();
 app.MapControllers();
 
 app.Run();
