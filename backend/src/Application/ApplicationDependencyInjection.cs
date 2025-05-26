@@ -14,11 +14,6 @@ public static class ApplicationDependencyInjection
     {
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-        services.AddFluentValidationAutoValidation(options =>
-            {
-                options.DisableDataAnnotationsValidation = true;
-            }).AddFluentValidationClientsideAdapters();
-
         services.AddScoped<IValidator<ChoreCreateDto>, ChoreCreateDtoValidator>();
         services.AddScoped<IValidator<ChoreUpdateDto>, ChoreUpdateDtoValidator>();
 

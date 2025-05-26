@@ -21,6 +21,10 @@ public class ChoreCreateDtoValidator : AbstractValidator<ChoreCreateDto>
       .NotNull().WithMessage("O campo 'status' é obrigatório.")
       .IsInEnum().WithMessage("O status deve ser um valor válido.");
 
+    RuleFor(x => x.CompletedAt)
+      .Must(x => x == null || x >= DateTime.UtcNow)
+      .WithMessage("A data de conclusão não pode ser no passado.");
+
     RuleFor(x => new { x.Status, x.CompletedAt })
       .Must(x => x.Status == ChoreStatus.Completed || x.CompletedAt == null)
       .WithMessage("O campo 'dataDeConclusao' só deve ser preenchido quando o status for 'Concluído'.");
