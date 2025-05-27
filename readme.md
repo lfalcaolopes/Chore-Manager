@@ -7,7 +7,7 @@ Projeto fullstack desenvolvido como parte de um desafio técnico. Consiste em um
 ## 🚀 Tecnologias utilizadas
 
 ### Backend
-- ASP.NET Core 7
+- ASP.NET Core 8
 - Entity Framework Core
 - SQL Server (Docker)
 - AutoMapper
